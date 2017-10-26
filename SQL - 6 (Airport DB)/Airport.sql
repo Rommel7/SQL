@@ -1,0 +1,71 @@
+CREATE TABLE Flight (
+	[ID] INT NOT NULL IDENTITY,
+	[Number] varchar(20) NOT NULL,
+	[Status] INT NOT NULL,
+	[Type] BIT NOT NULL,
+	[FlightDate] DATETIME2(0) NOT NULL,
+	[Late] INT NOT NULL,
+	[CityID] INT NOT NULL,
+	[AirportID] INT NOT NULL,
+	[CompanyID] INT NOT NULL,
+	[RunwayID] INT NOT NULL,
+	[GateID] INT NOT NULL,
+	PRIMARY KEY ([ID])
+);
+
+CREATE TABLE Gates (
+	[ID] INT NOT NULL IDENTITY,
+	[Name] varchar(25) NOT NULL,
+	[Status] INT NOT NULL,
+	PRIMARY KEY ([ID])
+);
+
+CREATE TABLE Runways (
+	[ID] INT NOT NULL IDENTITY,
+	[Name] varchar(25) NOT NULL,
+	[Status] INT NOT NULL,
+	PRIMARY KEY ([ID])
+);
+
+CREATE TABLE Cities (
+	[ID] INT NOT NULL IDENTITY,
+	[Name] varchar(50) NOT NULL,
+	[CountryID] INT NOT NULL,
+	PRIMARY KEY ([ID])
+);
+
+CREATE TABLE Countries (
+	[ID] INT NOT NULL IDENTITY,
+	[Name] varchar(50) NOT NULL,
+	PRIMARY KEY ([ID])
+);
+
+CREATE TABLE Componies (
+	[ID] INT NOT NULL IDENTITY,
+	[Name] varchar(50) NOT NULL,
+	[CountryID] INT NOT NULL,
+	PRIMARY KEY ([ID])
+);
+
+CREATE TABLE Airports (
+	[ID] INT NOT NULL IDENTITY,
+	[Name] varchar(50) NOT NULL,
+	[CityID] INT NOT NULL,
+	PRIMARY KEY ([ID])
+);
+
+ALTER TABLE [Flight] ADD CONSTRAINT [Flight_fk0] FOREIGN KEY ([CityID]) REFERENCES Cities([ID]);
+
+ALTER TABLE [Flight] ADD CONSTRAINT [Flight_fk1] FOREIGN KEY ([AirportID]) REFERENCES Airports([ID]);
+
+ALTER TABLE [Flight] ADD CONSTRAINT [Flight_fk2] FOREIGN KEY ([CompanyID]) REFERENCES Componies([ID]);
+
+ALTER TABLE [Flight] ADD CONSTRAINT [Flight_fk3] FOREIGN KEY ([RunwayID]) REFERENCES Runways([ID]);
+
+ALTER TABLE [Flight] ADD CONSTRAINT [Flight_fk4] FOREIGN KEY ([GateID]) REFERENCES Gates([ID]);
+
+ALTER TABLE [Cities] ADD CONSTRAINT [Cities_fk0] FOREIGN KEY ([CountryID]) REFERENCES Countries([ID]);
+
+ALTER TABLE [Componies] ADD CONSTRAINT [Componies_fk0] FOREIGN KEY ([CountryID]) REFERENCES Countries([ID]);
+
+ALTER TABLE [Airports] ADD CONSTRAINT [Airports_fk0] FOREIGN KEY ([CityID]) REFERENCES Cities([ID]);
